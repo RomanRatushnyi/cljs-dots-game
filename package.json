@@ -1,0 +1,34 @@
+{
+  "name": "cljs-dots-game",
+  "version": "1.0.0",
+  "description": "Dots game",
+  "main": "server.js",
+  "scripts": {
+    "dev": "shadow-cljs watch app",
+    "build": "shadow-cljs release app",
+    "server": "shadow-cljs watch server",
+    "server-release": "shadow-cljs release server",
+    "start": "node server.js",
+    "dev-all": "concurrently \"npm run dev\" \"npm run server\"",
+    "clean": "shadow-cljs clean"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.7.4",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "shadow-cljs": "^2.25.8",
+    "concurrently": "^8.2.2"
+  },
+  "keywords": [
+    "clojurescript",
+    "game",
+    "dots",
+    "multiplayer",
+    "reagent"
+  ],
+  "author": "ClojureScript Developer",
+  "license": "MIT"
+}
+

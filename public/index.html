@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игра "Точки" - ClojureScript</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .app {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .game-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .game-info h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .scores {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .scores div:first-child {
+            color: #e74c3c;
+        }
+
+        .scores div:last-child {
+            color: #3498db;
+        }
+
+        .game-status {
+            font-size: 16px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #27ae60;
+        }
+
+        .board {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #34495e;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .row {
+            display: flex;
+        }
+
+        .cell {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #2c3e50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 24px;
+            font-weight: bold;
+            transition: all 0.2s;
+            background-color: #ecf0f1;
+        }
+
+        .cell:hover {
+            background-color: #bdc3c7;
+            transform: scale(1.05);
+        }
+
+        .cell.empty {
+            background-color: #ecf0f1;
+        }
+
+        .cell.player1 {
+            background-color: #e74c3c;
+            color: white;
+            cursor: default;
+        }
+
+        .cell.player1:hover {
+            background-color: #e74c3c;
+            transform: none;
+        }
+
+        .cell.player2 {
+            background-color: #3498db;
+            color: white;
+            cursor: default;
+        }
+
+        .cell.player2:hover {
+            background-color: #3498db;
+            transform: none;
+        }
+
+        .cell.captured {
+            background-color: #95a5a6;
+            color: #2c3e50;
+            cursor: default;
+        }
+
+        .cell.captured:hover {
+            background-color: #95a5a6;
+            transform: none;
+        }
+
+        .multiplayer-controls {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .multiplayer-controls button {
+            margin: 5px;
+            background-color: #3498db;
+        }
+
+        .multiplayer-controls button:hover {
+            background-color: #2980b9;
+        }
+
+        .room-info {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .cell {
+                width: 30px;
+                height: 30px;
+                font-size: 18px;
+            }
+
+            .scores {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .board {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="loading">
+            Загрузка игры...
+        </div>
+    </div>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>
