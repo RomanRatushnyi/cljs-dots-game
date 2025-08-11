@@ -74,6 +74,9 @@
                 (let [{:keys [room-id player-id]} (create-room)]
                   (.join ^js socket room-id)
                   (.emit ^js socket "roomCreated" #js {:roomId room-id :playerId player-id})
+                  ;; Отправляем начальное состояние игры создателю комнаты
+                  (when-let [game-state (get-game-state room-id)]
+                    (.emit ^js socket "gameState" (clj->js game-state)))
                   (js/console.log (str "Создана комната: " room-id)))))
 
          ;; Присоединение к комнате
@@ -85,7 +88,9 @@
                     (do
                       (.join ^js socket room-id)
                       (.emit ^js socket "roomJoined" #js {:roomId room-id :playerId (:player-id result)})
+                      ;; Уведомляем всех игроков в комнате о присоединении
                       (.to (.in ^js io room-id) "playerJoined" #js {:playerId (:player-id result)})
+                      ;; Отправляем актуальное состояние игры всем игрокам в комнате
                       (when-let [game-state (get-game-state room-id)]
                         (.to (.in ^js io room-id) "gameState" (clj->js game-state)))
                       (js/console.log (str "Игрок присоединился к комнате: " room-id)))

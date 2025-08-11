@@ -9,12 +9,13 @@
     "server": "shadow-cljs watch server",
     "server-release": "shadow-cljs release server",
     "start": "node server.js",
-    "dev-all": "concurrently \"npm run dev\" \"npm run server\"",
+    "dev-all": "concurrently \"npm run dev\" \"npm run server\" \"sleep 3 && npm run start\"",
     "clean": "shadow-cljs clean"
   },
   "dependencies": {
     "express": "^4.18.2",
     "socket.io": "^4.7.4",
+    "socket.io-client": "^4.7.4",
     "uuid": "^9.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

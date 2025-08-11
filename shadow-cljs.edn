@@ -14,4 +14,3 @@
   :server {:target :node-script
            :main cljs-dots-game.server/main
            :output-to "server.js"}}}
-
