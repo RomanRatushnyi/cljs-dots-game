@@ -60,53 +60,53 @@
 (defn setup-express [app]
   (.use app (express/static (path/join js/__dirname "../public")))
   (.get app "/" (fn [req res]
-                  (.sendFile res (path/join js/__dirname "../public/index.html")))))
+                  (.sendFile ^js res (path/join js/__dirname "../public/index.html")))))
 
 ;; Настройка Socket.IO
-(defn setup-socket-io [io]
+(defn setup-socket-io [^js io]
   (.on io "connection"
-       (fn [socket]
+       (fn [^js socket]
          (js/console.log (str "Игрок подключился: " (.-id socket)))
 
          ;; Создание комнаты
-         (.on socket "createRoom"
+         (.on ^js socket "createRoom"
               (fn []
                 (let [{:keys [room-id player-id]} (create-room)]
-                  (.join socket room-id)
-                  (.emit socket "roomCreated" #js {:roomId room-id :playerId player-id})
+                  (.join ^js socket room-id)
+                  (.emit ^js socket "roomCreated" #js {:roomId room-id :playerId player-id})
                   (js/console.log (str "Создана комната: " room-id)))))
 
          ;; Присоединение к комнате
-         (.on socket "joinRoom"
-              (fn [data]
+         (.on ^js socket "joinRoom"
+              (fn [^js data]
                 (let [room-id (.-roomId data)
                       result (join-room room-id (.-id socket))]
                   (if result
                     (do
-                      (.join socket room-id)
-                      (.emit socket "roomJoined" #js {:roomId room-id :playerId (:player-id result)})
-                      (.to (.in io room-id) "playerJoined" #js {:playerId (:player-id result)})
+                      (.join ^js socket room-id)
+                      (.emit ^js socket "roomJoined" #js {:roomId room-id :playerId (:player-id result)})
+                      (.to (.in ^js io room-id) "playerJoined" #js {:playerId (:player-id result)})
                       (when-let [game-state (get-game-state room-id)]
-                        (.to (.in io room-id) "gameState" (clj->js game-state)))
+                        (.to (.in ^js io room-id) "gameState" (clj->js game-state)))
                       (js/console.log (str "Игрок присоединился к комнате: " room-id)))
-                    (.emit socket "error" #js {:message "Комната не найдена"})))))
+                    (.emit ^js socket "error" #js {:message "Комната не найдена"})))))
 
          ;; Выполнение хода
-         (.on socket "makeMove"
-              (fn [data]
+         (.on ^js socket "makeMove"
+              (fn [^js data]
                 (let [x (.-x data)
                       y (.-y data)
                       result (make-move (.-id socket) x y)]
                   (when result
-                    (.to (.in io (:room-id result)) "gameState" (clj->js (:game-state result)))))))
+                    (.to (.in ^js io (:room-id result)) "gameState" (clj->js (:game-state result)))))))
 
          ;; Отключение
-         (.on socket "disconnect"
+         (.on ^js socket "disconnect"
               (fn []
                 (js/console.log (str "Игрок отключился: " (.-id socket)))
                 (when-let [room-id (get-in @server-state [:player-rooms (.-id socket)])]
                   (leave-room (.-id socket))
-                  (.to (.in io room-id) "playerLeft")))))))
+                  (.to (.in ^js io room-id) "playerLeft")))))))
 
 ;; Главная функция сервера
 (defn main []

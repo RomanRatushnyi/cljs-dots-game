@@ -1,6 +1,6 @@
 (ns cljs-dots-game.core
   (:require [reagent.core :as r]
-            [reagent.dom :as rdom]
+            [reagent.dom.client :as rdom]
             [cljs-dots-game.game :as game]
             [cljs-dots-game.types :as types]))
 
@@ -62,5 +62,6 @@
 
 ;; Инициализация приложения
 (defn ^:export init! []
-  (rdom/render [app-component]
-               (.getElementById js/document "app")))
+  (let [container (.getElementById js/document "app")
+        root (rdom/create-root container)]
+    (rdom/render root [app-component])))
