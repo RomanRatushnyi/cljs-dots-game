@@ -31,9 +31,11 @@
   (let [{:keys [board width height]} @app-state]
     [:div.board
      (for [y (range height)]
-       [:div.row {:key y}
+       ^{:key y}
+       [:div.row
         (for [x (range width)]
-          [cell-component x y (get-in board [y x]) {:key (str x "-" y)}])])]))
+          ^{:key (str x "-" y)}
+          [cell-component x y (get-in board [y x])])])]))
 
 ;; Компонент информации об игре
 (defn game-info-component []
